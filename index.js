@@ -131,13 +131,69 @@ addRole = () =>{
         },
         {
             type: "input",
-            name:"departmentid",
+            name:"department_id",
             message:"What is the department id number?"
         }
     ])
     .then(function(answer){
         connection.query("INSERT INTO employeerole"),
-        [answer.roleName, answer.salary, answer.departmentid],
+        [answer.roleName, answer.salary, answer.department_id],
+        function(err, answer){
+            if (err) throw err;
+            start();
+        };
+    });
+};
+
+addEmployee = () =>{
+    inquirer.prompt([
+        {
+            type: "input",
+            name:"first_name",
+            message:"What is your first name?"
+        },
+        {
+            type:"input",
+            name:"last_name",
+            message:"What is your last name??"
+        },
+        {
+            type: "input",
+            name:"role_id",
+            message:"What is your role id??"
+        }
+    ])
+    .then(function(answer){
+        connection.query("INSERT INTO employee"),
+        [answer.first_name, answer.last_name, answer.role_id],
+        function(err, answer){
+            if (err) throw err;
+            start();
+        };
+    });
+};
+
+updateEmployeeRole = () =>{
+    inquirer.prompt([
+        {
+            type: "input",
+            name:"id",
+            message:"What is your id?"
+        },
+        {
+            type:"input",
+            name:"title",
+            message:"What is your title?"
+        },
+        {
+            type: "input",
+            name:"salary",
+            message:"Please updated your salary using only numbers and no special characters."
+        }
+    ])
+    .then(function(answer){
+        connection.query("INSERT INTO employee"),
+        [answer.id, answer.title, answer.salary],
         function(err, answer){
             if (err) throw err;
             start();
