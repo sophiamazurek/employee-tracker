@@ -55,6 +55,18 @@ function start() {
         if(data.action=='Add department'){
             addDepartment();
         }
+        if(data.action=='Add role'){
+            addRole();
+        }
+        if(data.action=='Add employee'){
+            addEmployee();
+        }
+        if(data.action=='Update employee role'){
+            updateEmployeeRole();
+        }
+        if(data.action=='Exit'){
+            Exit();
+        }
       });
 
 
@@ -104,3 +116,31 @@ selectAllEmployee = () => {
 
     start();
   };
+
+addRole = () =>{
+    inquirer.prompt([
+        {
+            type: "input",
+            name:"roleName",
+            message:"What is the name of your role?"
+        },
+        {
+            type:"input",
+            name:"salary",
+            message:"Please enter with numbers only what is the salary of this role?"
+        },
+        {
+            type: "input",
+            name:"departmentid",
+            message:"What is the department id number?"
+        }
+    ])
+    .then(function(answer){
+        connection.query("INSERT INTO employeerole"),
+        [answer.roleName, answer.salary, answer.departmentid],
+        function(err, answer){
+            if (err) throw err;
+            start();
+        };
+    });
+};
