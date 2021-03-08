@@ -43,10 +43,10 @@ function start() {
         choices: ['View all department', 'View all roles', 'View all employees', 'Add department', 'Add role', 'Add employee', 'Update employee role', "Exit"]
       }])
     .then(function(data) {
-         if(data.action=='View all department'){
+        if(data.action=='View all department'){
              selectAllDepartment();
          }
-         if(data.action=='View all roles'){
+        if(data.action=='View all roles'){
             selectAllEmployeeRole();
         }
         if(data.action=='View all employees'){
@@ -81,9 +81,9 @@ addDepartment= () => {
       if (err) throw err;
       console.log("Deparment table data inserted!");
       console.table(res);
+      wannaKeepGoing();
     });
   
-    start();
   };
 
 
@@ -92,33 +92,36 @@ selectAllDepartment = () => {
     if (err) throw err;
     console.log("selecting Departments");
     console.table(res);
+    wannaKeepGoing();
   });
 
-  start();
 };
 
 selectAllEmployeeRole = () => {
+    console.clear();
     connection.query('SELECT * FROM employeerole', function(err, res) {
       if (err) throw err;
       console.log("selecting employee roles");
       console.table(res);
+      wannaKeepGoing();
     });
 
-    start();
   };
 
 selectAllEmployee = () => {
+    console.clear();
     connection.query('SELECT * FROM employee', function(err, res) {
       if (err) throw err;
       console.log("Selecting Employees");
       console.table(res);
+      console.log('\n')
+      wannaKeepGoing();
     });
 
-    start();
   };
 
 addRole = () =>{
-    inquirer.prompt([
+    let questions = [
         {
             type: "input",
             name:"roleName",
@@ -134,18 +137,22 @@ addRole = () =>{
             name:"department_id",
             message:"What is the department id number?"
         }
-    ])
+    ];
+
+    inquirer.prompt(questions)
     .then(function(answer){
         connection.query("INSERT INTO employeerole"),
         [answer.roleName, answer.salary, answer.department_id],
         function(err, answer){
             if (err) throw err;
-            start();
+            wannaKeepGoing();
         };
     });
 };
 
 addEmployee = () =>{
+    //query db for avaialbe roles --> ['Manager', 'Intern', 'IT']
+    // that array is called roleOptions
     inquirer.prompt([
         {
             type: "input",
@@ -161,14 +168,23 @@ addEmployee = () =>{
             type: "input",
             name:"role_id",
             message:"What is your role id??"
+        },
+        {
+            type: "list",
+            name: "roles",
+            message: "which role are they?",
+            choices: roleOptions
         }
     ])
     .then(function(answer){
+        // we need to know the employee role id
+        // query the employee role table where title = answer.roles
+        //now we know id
         connection.query("INSERT INTO employee"),
         [answer.first_name, answer.last_name, answer.role_id],
         function(err, answer){
             if (err) throw err;
-            start();
+            wannaKeepGoing();
         };
     });
 };
@@ -196,7 +212,22 @@ updateEmployeeRole = () =>{
         [answer.id, answer.title, answer.salary],
         function(err, answer){
             if (err) throw err;
-            start();
+            wannaKeepGoing();
         };
     });
 };
+
+wannaKeepGoing = () => {
+    inquirer.prompt([{
+        type: 'confirm',
+        name: 'quit',
+        message: 'Would you like to keep going?'
+    }]).then(userResponse => {
+        if (userResponse.quit) {
+            start()
+        } else {
+            console.log('have a good one')
+            process.exit()
+        }
+    })
+}
