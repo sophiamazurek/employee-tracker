@@ -182,19 +182,12 @@ addEmployee = () =>{
             type: "input",
             name:"role_id",
             message:"What is your role id??"
-        },
-        {
-            type: "list",
-            name: "roles",
-            message: "which role are they?",
-            choices: roleOptions
         }
     ])
     .then(function(answer){
-        // we need to know the employee role id
-        // query the employee role table where title = answer.roles
-        //now we know id
-        connection.query("INSERT INTO employee"),
+        console.log('INSERT INTO employee (first_name, last_name, role_id) VALUES ("'+answer.first_name+'","'+answer.last_name+'","'+answer.role_id+'");')
+
+        connection.query('INSERT INTO employee (first_name, last_name, role_id) VALUES ("'+answer.first_name+'","'+answer.last_name+'","'+answer.role_id+'");'),
         [answer.first_name, answer.last_name, answer.role_id],
         function(err, answer){
             if (err) throw err;
@@ -241,7 +234,7 @@ updateEmployeeRole = () =>{
                 id: answer.id
               }
             ],
-            
+
             function(err, res) {
               if (err) throw err;
               console.log(res.affectedRows + ' products updated!\n');
