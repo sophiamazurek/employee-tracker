@@ -176,12 +176,12 @@ addEmployee = () =>{
         {
             type:"input",
             name:"last_name",
-            message:"What is your last name??"
+            message:"What is your last name?"
         },
         {
             type: "input",
             name:"role_id",
-            message:"What is your role id??"
+            message:"What is your role id?"
         }
     ])
     .then(function(answer){
@@ -255,7 +255,7 @@ wannaKeepGoing = () => {
         if (userResponse.quit) {
             start()
         } else {
-            console.log('have a good one')
+            console.log('Have a great day!')
             process.exit()
         }
     })
