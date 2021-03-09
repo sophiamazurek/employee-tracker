@@ -77,12 +77,24 @@ function start() {
 addDepartment= () => {
     //inqureier ask for id and name
     //INSERT INTO department (id, name)VALUES (1, "HR");
-    connection.query('SELECT * FROM department', function(err, res) {
-      if (err) throw err;
-      console.log("Deparment table data inserted!");
-      console.table(res);
-      wannaKeepGoing();
-    });
+
+
+inquirer.prompt({
+    type: "input",
+    name:"departmentName",
+    message:"What is the department name?"
+}).then(function(response)
+{
+    console.log('INSERT INTO department (name) VALUES ("'+response.departmentName+'");')
+    connection.query('INSERT INTO department (name) VALUES ("'+response.departmentName+'");', function(err, res) {
+        if (err) throw err;
+        console.log("Deparment table data inserted!");
+        console.table(res);
+        wannaKeepGoing();
+      });
+
+})
+    
   
   };
 
@@ -141,12 +153,14 @@ addRole = () =>{
 
     inquirer.prompt(questions)
     .then(function(answer){
-        connection.query("INSERT INTO employeerole"),
-        [answer.roleName, answer.salary, answer.department_id],
-        function(err, answer){
-            if (err) throw err;
-            wannaKeepGoing();
-        };
+        console.log('INSERT INTO employeerole (title, salary, department_id) VALUES ("'+answer.roleName+'","'+answer.salary+'","'+answer.department_id+'");')
+
+        connection.query('INSERT INTO employeerole (title, salary, department_id) VALUES ("'+answer.roleName+'","'+answer.salary+'","'+answer.department_id+'");', function(err, res) {
+        if (err) throw err;
+        console.log("Deparment table data inserted!");
+        console.table(res);
+        wannaKeepGoing();
+      });
     });
 };
 
@@ -205,15 +219,37 @@ updateEmployeeRole = () =>{
             type: "input",
             name:"salary",
             message:"Please updated your salary using only numbers and no special characters."
+        },
+        {
+            type: "input",
+            name:"department_id",
+            message:"Please choose a pre-exisiting department id."
         }
     ])
     .then(function(answer){
-        connection.query("INSERT INTO employee"),
-        [answer.id, answer.title, answer.salary],
-        function(err, answer){
-            if (err) throw err;
-            wannaKeepGoing();
-        };
+        //UPDATE emoloyeerole SET column1 = value1, column2 = value2, ... WHERE condition;
+        
+        const query = connection.query(
+            'UPDATE employeerole SET ? WHERE ?',
+            [
+              {
+                title: answer.title,
+                salary: answer.salary,
+                department_id: answer.department_id
+              },
+              {
+                id: answer.id
+              }
+            ],
+            
+            function(err, res) {
+              if (err) throw err;
+              console.log(res.affectedRows + ' products updated!\n');
+              wannaKeepGoing();
+            }
+          );
+       
+       
     });
 };
 

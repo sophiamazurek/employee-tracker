@@ -37,18 +37,18 @@ VALUES (5, "Director",30000,3 );
 -- data for employee
 
 INSERT INTO employee (id, first_name, last_name, role_id)
-VALUES (1, "John", "Smith", 123);
+VALUES (1, "John", "Smith", 1);
 
 INSERT INTO employee (id, first_name, last_name, role_id)
-VALUES (2, "Bob", "Johnson", 134);
+VALUES (2, "Bob", "Johnson", 2);
 
 INSERT INTO employee (id, first_name, last_name, role_id)
-VALUES (3, "Joseph", "Mazurek", 145);
+VALUES (3, "Joseph", "Mazurek", 3);
 
 INSERT INTO employee (id, first_name, last_name, role_id)
-VALUES (4, "Ethan", "Barton", 156);
+VALUES (4, "Ethan", "Barton", 4);
 
 INSERT INTO employee (id, first_name, last_name, role_id)
-VALUES (5, "Sophia", "Werner", 167);
+VALUES (5, "Sophia", "Werner", 5);
 
 -- other data will go in when user inputs it
